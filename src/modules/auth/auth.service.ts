@@ -1,23 +1,50 @@
 import { prisma } from "../../lib/prisma";
-import type { User, UserRole } from "../../../generated/prisma/client";
+import type {
+  UserRole
+} from "../../../generated/prisma/client";
 
 export const AuthService = {
+  async getMe(userId: string) {
+    return prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        phone: true,
+        image: true,
+        createdAt: true,
+        providerProfile: true
+      }
+    });
+  },
 
-  async setUserRole(
-    userId: string,
-    role: UserRole
-  ): Promise<User> {
+  async setUserRole(userId: string, role: UserRole) {
     return prisma.user.update({
       where: { id: userId },
       data: { role }
     });
   },
 
-  async getMe(userId: string) {
-    return prisma.user.findUnique({
+  async updateProfile(
+    userId: string,
+    payload: {
+      name?: string;
+      phone?: string;
+      image?: string;
+    }
+  ) {
+    return prisma.user.update({
       where: { id: userId },
-      include: {
-        providerProfile: true
+      data: payload,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        phone: true,
+        image: true
       }
     });
   }

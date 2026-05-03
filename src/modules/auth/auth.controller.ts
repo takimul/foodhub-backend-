@@ -1,34 +1,44 @@
-import type { Request, Response } from "express";
+import type { RequestHandler } from "express";
+import type { AuthenticatedRequest } from "../../types/auth-request";
 import { AuthService } from "./auth.service";
-import type { RegisterRoleInput } from "./auth.schema";
 
 export const AuthController = {
-
-  async registerRole(
-    req: Request<{}, {}, RegisterRoleInput>,
-    res: Response
-  ) {
-    if (!req.user) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const updated = await AuthService.setUserRole(
-      req.user.id,
-      req.body.role
+  me: (async (req, res) => {
+    const user = await AuthService.getMe(
+      (req as AuthenticatedRequest).user.id
     );
 
-    return res.json({
-      message: "Role updated",
-      user: updated
+    res.json({
+      success: true,
+      data: user
     });
-  },
+  }) as RequestHandler,
 
-  async me(req: Request, res: Response) {
-    if (!req.user) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+  becomeProvider: (async (req, res) => {
+    const updated = await AuthService.setUserRole(
+      (req as AuthenticatedRequest).user.id,
+      "PROVIDER"
+    );
 
-    const user = await AuthService.getMe(req.user.id);
-    return res.json(user);
-  }
+    res.json({
+      success: true,
+      message: "Now you are provider",
+      data: updated
+    });
+  }) as RequestHandler,
+
+  updateProfile: (async (req, res) => {
+    const authReq = req as AuthenticatedRequest;
+
+    const updated = await AuthService.updateProfile(
+      authReq.user.id,
+      req.body
+    );
+
+    res.json({
+      success: true,
+      message: "Profile updated",
+      data: updated
+    });
+  }) as RequestHandler
 };

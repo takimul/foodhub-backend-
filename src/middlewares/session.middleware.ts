@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import { auth } from "../lib/auth";
 import type { UserRole } from "../../generated/prisma/client";
+import type { AuthenticatedRequest } from "../types/auth-request";
 
 function toWebHeaders(headers: Request["headers"]): Headers {
   const h = new Headers();
@@ -16,11 +17,9 @@ function toWebHeaders(headers: Request["headers"]): Headers {
 function parseUserRole(role: string): UserRole {
   const allowed: UserRole[] = ["CUSTOMER", "PROVIDER", "ADMIN"];
 
-  if (allowed.includes(role as UserRole)) {
-    return role as UserRole;
-  }
-
-  return "CUSTOMER";
+  return allowed.includes(role as UserRole)
+    ? (role as UserRole)
+    : "CUSTOMER";
 }
 
 export async function sessionMiddleware(
@@ -33,10 +32,13 @@ export async function sessionMiddleware(
   });
 
   if (!session) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized"
+    });
   }
 
-  req.user = {
+  (req as AuthenticatedRequest).user = {
     id: session.user.id,
     email: session.user.email,
     role: parseUserRole(session.user.role)

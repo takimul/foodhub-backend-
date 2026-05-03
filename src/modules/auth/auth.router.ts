@@ -1,22 +1,24 @@
 import { Router } from "express";
 import { AuthController } from "./auth.controller";
-import { validate } from "../../middlewares/validate.middleware";
 import { sessionMiddleware } from "../../middlewares/session.middleware";
-import { registerRoleSchema } from "./auth.schema";
+import { validate } from "../../middlewares/validate.middleware";
+import { updateProfileSchema } from "./auth.schema";
 
 const router = Router();
 
-router.post(
-  "/register-role",
+router.get("/me", sessionMiddleware, AuthController.me);
+
+router.patch(
+  "/become-provider",
   sessionMiddleware,
-  validate(registerRoleSchema),
-  AuthController.registerRole
+  AuthController.becomeProvider
 );
 
-router.get(
-  "/me",
+router.patch(
+  "/profile",
   sessionMiddleware,
-  AuthController.me
+  validate(updateProfileSchema),
+  AuthController.updateProfile
 );
 
 export default router;
