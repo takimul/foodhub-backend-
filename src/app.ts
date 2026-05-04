@@ -7,6 +7,8 @@ import { errorMiddleware } from "./middlewares/error.middleware";
 import authRouter from "./modules/auth/auth.router";
 import providerRouter from "./modules/provider/provider.router";
 import categoryRouter from "./modules/category/category.router";
+import mealRouter from "./modules/meal/meal.router";
+
 
 
 dotenv.config();
@@ -21,6 +23,7 @@ app.use("/api/auth", toNodeHandler(auth));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/providers", providerRouter);
 app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/meals", mealRouter);
 
 app.get("/", (_, res) => {
   res.send("FoodHub API running...");

@@ -147,6 +147,7 @@ model Meal {
   description String
   price       Float
   imageUrl    String?
+  isDeleted   Boolean  @default(false)
   isAvailable Boolean @default(true)
 
   providerId String

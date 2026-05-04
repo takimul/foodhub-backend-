@@ -40,6 +40,7 @@ export type MealMinAggregateOutputType = {
   description: string | null
   price: number | null
   imageUrl: string | null
+  isDeleted: boolean | null
   isAvailable: boolean | null
   providerId: string | null
   categoryId: string | null
@@ -53,6 +54,7 @@ export type MealMaxAggregateOutputType = {
   description: string | null
   price: number | null
   imageUrl: string | null
+  isDeleted: boolean | null
   isAvailable: boolean | null
   providerId: string | null
   categoryId: string | null
@@ -66,6 +68,7 @@ export type MealCountAggregateOutputType = {
   description: number
   price: number
   imageUrl: number
+  isDeleted: number
   isAvailable: number
   providerId: number
   categoryId: number
@@ -89,6 +92,7 @@ export type MealMinAggregateInputType = {
   description?: true
   price?: true
   imageUrl?: true
+  isDeleted?: true
   isAvailable?: true
   providerId?: true
   categoryId?: true
@@ -102,6 +106,7 @@ export type MealMaxAggregateInputType = {
   description?: true
   price?: true
   imageUrl?: true
+  isDeleted?: true
   isAvailable?: true
   providerId?: true
   categoryId?: true
@@ -115,6 +120,7 @@ export type MealCountAggregateInputType = {
   description?: true
   price?: true
   imageUrl?: true
+  isDeleted?: true
   isAvailable?: true
   providerId?: true
   categoryId?: true
@@ -215,6 +221,7 @@ export type MealGroupByOutputType = {
   description: string
   price: number
   imageUrl: string | null
+  isDeleted: boolean
   isAvailable: boolean
   providerId: string
   categoryId: string
@@ -251,6 +258,7 @@ export type MealWhereInput = {
   description?: Prisma.StringFilter<"Meal"> | string
   price?: Prisma.FloatFilter<"Meal"> | number
   imageUrl?: Prisma.StringNullableFilter<"Meal"> | string | null
+  isDeleted?: Prisma.BoolFilter<"Meal"> | boolean
   isAvailable?: Prisma.BoolFilter<"Meal"> | boolean
   providerId?: Prisma.StringFilter<"Meal"> | string
   categoryId?: Prisma.StringFilter<"Meal"> | string
@@ -268,6 +276,7 @@ export type MealOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
   providerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -288,6 +297,7 @@ export type MealWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Meal"> | string
   price?: Prisma.FloatFilter<"Meal"> | number
   imageUrl?: Prisma.StringNullableFilter<"Meal"> | string | null
+  isDeleted?: Prisma.BoolFilter<"Meal"> | boolean
   isAvailable?: Prisma.BoolFilter<"Meal"> | boolean
   providerId?: Prisma.StringFilter<"Meal"> | string
   categoryId?: Prisma.StringFilter<"Meal"> | string
@@ -305,6 +315,7 @@ export type MealOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
   providerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -326,6 +337,7 @@ export type MealScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"Meal"> | string
   price?: Prisma.FloatWithAggregatesFilter<"Meal"> | number
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Meal"> | string | null
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"Meal"> | boolean
   isAvailable?: Prisma.BoolWithAggregatesFilter<"Meal"> | boolean
   providerId?: Prisma.StringWithAggregatesFilter<"Meal"> | string
   categoryId?: Prisma.StringWithAggregatesFilter<"Meal"> | string
@@ -339,6 +351,7 @@ export type MealCreateInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -354,6 +367,7 @@ export type MealUncheckedCreateInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId: string
   categoryId: string
@@ -369,6 +383,7 @@ export type MealUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -384,6 +399,7 @@ export type MealUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -399,6 +415,7 @@ export type MealCreateManyInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId: string
   categoryId: string
@@ -412,6 +429,7 @@ export type MealUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -423,6 +441,7 @@ export type MealUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -446,6 +465,7 @@ export type MealCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
   providerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -463,6 +483,7 @@ export type MealMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
   providerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -476,6 +497,7 @@ export type MealMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
   providerId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
@@ -618,6 +640,7 @@ export type MealCreateWithoutProviderInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -632,6 +655,7 @@ export type MealUncheckedCreateWithoutProviderInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   categoryId: string
   createdAt?: Date | string
@@ -675,6 +699,7 @@ export type MealScalarWhereInput = {
   description?: Prisma.StringFilter<"Meal"> | string
   price?: Prisma.FloatFilter<"Meal"> | number
   imageUrl?: Prisma.StringNullableFilter<"Meal"> | string | null
+  isDeleted?: Prisma.BoolFilter<"Meal"> | boolean
   isAvailable?: Prisma.BoolFilter<"Meal"> | boolean
   providerId?: Prisma.StringFilter<"Meal"> | string
   categoryId?: Prisma.StringFilter<"Meal"> | string
@@ -688,6 +713,7 @@ export type MealCreateWithoutCategoryInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -702,6 +728,7 @@ export type MealUncheckedCreateWithoutCategoryInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId: string
   createdAt?: Date | string
@@ -742,6 +769,7 @@ export type MealCreateWithoutOrderItemsInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -756,6 +784,7 @@ export type MealUncheckedCreateWithoutOrderItemsInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId: string
   categoryId: string
@@ -786,6 +815,7 @@ export type MealUpdateWithoutOrderItemsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -800,6 +830,7 @@ export type MealUncheckedUpdateWithoutOrderItemsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -814,6 +845,7 @@ export type MealCreateWithoutReviewsInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -828,6 +860,7 @@ export type MealUncheckedCreateWithoutReviewsInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId: string
   categoryId: string
@@ -858,6 +891,7 @@ export type MealUpdateWithoutReviewsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -872,6 +906,7 @@ export type MealUncheckedUpdateWithoutReviewsInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -886,6 +921,7 @@ export type MealCreateManyProviderInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   categoryId: string
   createdAt?: Date | string
@@ -898,6 +934,7 @@ export type MealUpdateWithoutProviderInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -912,6 +949,7 @@ export type MealUncheckedUpdateWithoutProviderInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -926,6 +964,7 @@ export type MealUncheckedUpdateManyWithoutProviderInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -938,6 +977,7 @@ export type MealCreateManyCategoryInput = {
   description: string
   price: number
   imageUrl?: string | null
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId: string
   createdAt?: Date | string
@@ -950,6 +990,7 @@ export type MealUpdateWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -964,6 +1005,7 @@ export type MealUncheckedUpdateWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -978,6 +1020,7 @@ export type MealUncheckedUpdateManyWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   providerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1030,6 +1073,7 @@ export type MealSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   description?: boolean
   price?: boolean
   imageUrl?: boolean
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId?: boolean
   categoryId?: boolean
@@ -1048,6 +1092,7 @@ export type MealSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   description?: boolean
   price?: boolean
   imageUrl?: boolean
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId?: boolean
   categoryId?: boolean
@@ -1063,6 +1108,7 @@ export type MealSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   description?: boolean
   price?: boolean
   imageUrl?: boolean
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId?: boolean
   categoryId?: boolean
@@ -1078,6 +1124,7 @@ export type MealSelectScalar = {
   description?: boolean
   price?: boolean
   imageUrl?: boolean
+  isDeleted?: boolean
   isAvailable?: boolean
   providerId?: boolean
   categoryId?: boolean
@@ -1085,7 +1132,7 @@ export type MealSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MealOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "price" | "imageUrl" | "isAvailable" | "providerId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["meal"]>
+export type MealOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "price" | "imageUrl" | "isDeleted" | "isAvailable" | "providerId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["meal"]>
 export type MealInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   provider?: boolean | Prisma.ProviderProfileDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -1116,6 +1163,7 @@ export type $MealPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     description: string
     price: number
     imageUrl: string | null
+    isDeleted: boolean
     isAvailable: boolean
     providerId: string
     categoryId: string
@@ -1553,6 +1601,7 @@ export interface MealFieldRefs {
   readonly description: Prisma.FieldRef<"Meal", 'String'>
   readonly price: Prisma.FieldRef<"Meal", 'Float'>
   readonly imageUrl: Prisma.FieldRef<"Meal", 'String'>
+  readonly isDeleted: Prisma.FieldRef<"Meal", 'Boolean'>
   readonly isAvailable: Prisma.FieldRef<"Meal", 'Boolean'>
   readonly providerId: Prisma.FieldRef<"Meal", 'String'>
   readonly categoryId: Prisma.FieldRef<"Meal", 'String'>
