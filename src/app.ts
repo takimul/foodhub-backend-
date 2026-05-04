@@ -8,6 +8,7 @@ import authRouter from "./modules/auth/auth.router";
 import providerRouter from "./modules/provider/provider.router";
 import categoryRouter from "./modules/category/category.router";
 import mealRouter from "./modules/meal/meal.router";
+import orderRouter from "./modules/order/order.router";
 
 
 
@@ -24,6 +25,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/providers", providerRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/meals", mealRouter);
+app.use("/api/v1/orders", orderRouter);
 
 app.get("/", (_, res) => {
   res.send("FoodHub API running...");
