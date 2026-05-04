@@ -9,6 +9,7 @@ import providerRouter from "./modules/provider/provider.router";
 import categoryRouter from "./modules/category/category.router";
 import mealRouter from "./modules/meal/meal.router";
 import orderRouter from "./modules/order/order.router";
+import adminRouter from "./modules/admin/admin.router";
 
 
 
@@ -26,6 +27,7 @@ app.use("/api/v1/providers", providerRouter);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/meals", mealRouter);
 app.use("/api/v1/orders", orderRouter);
+app.use("/api/v1/admin", adminRouter);
 
 app.get("/", (_, res) => {
   res.send("FoodHub API running...");
