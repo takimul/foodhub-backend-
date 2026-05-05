@@ -30,18 +30,70 @@ export const MealService = {
     });
   },
 
-  async getAll() {
+  // async getAll() {
+  //   return prisma.meal.findMany({
+  //     where: {
+  //       isDeleted: false
+  //     },
+  //     include: {
+  //       provider: {
+  //         select: {
+  //           restaurant: true
+  //         }
+  //       },
+  //       category: true
+  //     }
+  //   });
+  // },
+  async getMeals({
+    search,
+    category
+  }: {
+    search?: string;
+    category?: string;
+  }) {
     return prisma.meal.findMany({
       where: {
-        isDeleted: false
+        isDeleted: false,
+        isAvailable: true,
+
+        // 🔍 SEARCH FILTER
+        ...(search && {
+          OR: [
+            {
+              title: {
+                contains: search,
+                mode: "insensitive"
+              }
+            },
+            {
+              description: {
+                contains: search,
+                mode: "insensitive"
+              }
+            }
+          ]
+        }),
+
+        // 🏷 CATEGORY FILTER
+        ...(category && {
+          category: {
+            slug: category
+          }
+        })
       },
+
       include: {
+        category: true,
         provider: {
           select: {
             restaurant: true
           }
-        },
-        category: true
+        }
+      },
+
+      orderBy: {
+        createdAt: "desc"
       }
     });
   },
