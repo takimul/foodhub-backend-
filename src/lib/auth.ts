@@ -26,7 +26,7 @@ export const getAuth = async () => {
     process.env.FRONTEND_URL || "" 
   ],
 
-  // 🔥 FIX HERE
+  
   cookies: {
     sessionToken: {
       attributes: {
