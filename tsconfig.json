@@ -1,3 +1,24 @@
+// {
+//   "compilerOptions": {
+//     "target": "ES2022",
+//     "module": "CommonJS",
+//     "rootDir": "./src",
+//     "outDir": "./dist",
+
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "moduleResolution": "node",
+
+//     "types": ["node"],
+
+//     "sourceMap": true,
+
+//     "skipLibCheck": true,
+//     "resolveJsonModule": true
+//   },
+//   "include": ["src/**/*"],
+//   "exclude": ["node_modules", "dist"]
+// }
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -10,11 +31,7 @@
     "moduleResolution": "node",
 
     "types": ["node"],
-
-    "sourceMap": true,
-
-    "skipLibCheck": true,
-    "resolveJsonModule": true
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

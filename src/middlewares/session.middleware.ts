@@ -1,7 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 // import { auth } from "../lib/auth";
 import { getAuth } from "../lib/auth";
-import type { UserRole } from "../../generated/prisma/client";
+// import type { UserRole } from "../../generated/prisma/client";
+import type { UserRole } from "../generated/prisma/client.js";
 import type { AuthenticatedRequest } from "../types/auth-request";
 
 function toWebHeaders(headers: Request["headers"]): Headers {

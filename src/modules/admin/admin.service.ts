@@ -1,4 +1,4 @@
-import { UserStatus } from "../../../generated/prisma/client";
+import { UserStatus } from "../../generated/prisma/client.js";
 import { prisma } from "../../lib/prisma";
 
 export const AdminService = {
