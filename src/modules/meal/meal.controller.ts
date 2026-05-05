@@ -18,7 +18,11 @@ export const MealController = {
   }) as RequestHandler,
 
   getAll: (async (_req, res) => {
-    const data = await MealService.getAll();
+    const { search, category } = _req.query;
+    const data = await  MealService.getMeals({
+    search: search as string,
+    category: category as string
+  });
 
     res.json({
       success: true,
