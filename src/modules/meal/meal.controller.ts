@@ -4,67 +4,105 @@ import { MealService } from "./meal.service";
 
 export const MealController = {
   create: (async (req, res) => {
-    const authReq = req as AuthenticatedRequest;
+    try {
+      const authReq = req as AuthenticatedRequest;
 
-    const data = await MealService.create(
-      authReq.user.id,
-      req.body
-    );
+      const data = await MealService.create(
+        authReq.user.id,
+        req.body
+      );
 
-    res.status(201).json({
-      success: true,
-      data
-    });
+      res.status(201).json({
+        success: true,
+        data,
+      });
+    } catch (error: any) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
   }) as RequestHandler,
 
-  getAll: (async (_req, res) => {
-    const { search, category } = _req.query;
-    const data = await  MealService.getMeals({
-    search: search as string,
-    category: category as string
-  });
+  getAll: (async (req, res) => {
+    try {
+      const { search, category, page, limit } = req.query;
 
-    res.json({
-      success: true,
-      data
-    });
+      const result = await MealService.getMeals({
+        search: search as string,
+        category: category as string,
+        page: Number(page) || 1,
+        limit: Number(limit) || 8,
+      });
+
+      res.json({
+        success: true,
+        data: result, 
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
   }) as RequestHandler,
 
   getOne: (async (req, res) => {
-    const data = await MealService.getById(req.params.id as string);
+    try {
+      const data = await MealService.getById(req.params.id as string);
 
-    res.json({
-      success: true,
-      data
-    });
+      res.json({
+        success: true,
+        data,
+      });
+    } catch (error: any) {
+      res.status(404).json({
+        success: false,
+        message: error.message,
+      });
+    }
   }) as RequestHandler,
 
   update: (async (req, res) => {
-    const authReq = req as AuthenticatedRequest;
+    try {
+      const authReq = req as AuthenticatedRequest;
 
-    const data = await MealService.update(
-      authReq.user.id,
-      req.params.id as string,
-      req.body
-    );
+      const data = await MealService.update(
+        authReq.user.id,
+        req.params.id as string,
+        req.body
+      );
 
-    res.json({
-      success: true,
-      data
-    });
+      res.json({
+        success: true,
+        data,
+      });
+    } catch (error: any) {
+      res.status(403).json({
+        success: false,
+        message: error.message,
+      });
+    }
   }) as RequestHandler,
 
   delete: (async (req, res) => {
-    const authReq = req as AuthenticatedRequest;
+    try {
+      const authReq = req as AuthenticatedRequest;
 
-    await MealService.delete(
-      authReq.user.id,
-      req.params.id as string
-    );
+      await MealService.delete(
+        authReq.user.id,
+        req.params.id as string
+      );
 
-    res.json({
-      success: true,
-      message: "Meal deleted"
-    });
-  }) as RequestHandler
+      res.json({
+        success: true,
+        message: "Meal deleted",
+      });
+    } catch (error: any) {
+      res.status(403).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }) as RequestHandler,
 };
