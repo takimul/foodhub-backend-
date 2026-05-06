@@ -5,7 +5,9 @@ export const createMealSchema = z.object({
   description: z.string().min(5).max(500),
   price: z.number().positive(),
   categoryId: z.string(),
-  imageUrl: z.string().url().optional()
+  imageUrl: z.string().url().optional(),
+  cuisine: z.string().optional(),
+  dietary: z.string().optional(),
 });
 
 export const updateMealSchema = createMealSchema.partial();

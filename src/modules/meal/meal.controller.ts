@@ -7,10 +7,7 @@ export const MealController = {
     try {
       const authReq = req as AuthenticatedRequest;
 
-      const data = await MealService.create(
-        authReq.user.id,
-        req.body
-      );
+      const data = await MealService.create(authReq.user.id, req.body);
 
       res.status(201).json({
         success: true,
@@ -26,18 +23,34 @@ export const MealController = {
 
   getAll: (async (req, res) => {
     try {
-      const { search, category, page, limit } = req.query;
+      const {
+        search,
+        category,
+        cuisine,
+        dietary,
+        minPrice,
+        maxPrice,
+        page,
+        limit,
+      } = req.query;
 
       const result = await MealService.getMeals({
         search: search as string,
         category: category as string,
+        cuisine: cuisine as string,
+
+        dietary: dietary as string,
+
+        minPrice: Number(minPrice),
+
+        maxPrice: Number(maxPrice),
         page: Number(page) || 1,
         limit: Number(limit) || 8,
       });
 
       res.json({
         success: true,
-        data: result, 
+        data: result,
       });
     } catch (error: any) {
       res.status(500).json({
@@ -70,7 +83,7 @@ export const MealController = {
       const data = await MealService.update(
         authReq.user.id,
         req.params.id as string,
-        req.body
+        req.body,
       );
 
       res.json({
@@ -89,10 +102,7 @@ export const MealController = {
     try {
       const authReq = req as AuthenticatedRequest;
 
-      await MealService.delete(
-        authReq.user.id,
-        req.params.id as string
-      );
+      await MealService.delete(authReq.user.id, req.params.id as string);
 
       res.json({
         success: true,
