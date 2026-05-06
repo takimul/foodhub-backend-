@@ -40,10 +40,9 @@ export const MealController = {
         cuisine: cuisine as string,
 
         dietary: dietary as string,
+        minPrice: minPrice ? Number(minPrice) : undefined,
 
-        minPrice: Number(minPrice),
-
-        maxPrice: Number(maxPrice),
+        maxPrice: maxPrice ? Number(maxPrice) : undefined,
         page: Number(page) || 1,
         limit: Number(limit) || 8,
       });

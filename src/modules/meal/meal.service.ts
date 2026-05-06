@@ -48,52 +48,53 @@ export const MealService = {
   }) {
     const skip = (page - 1) * limit;
 
-    const where = {
+    const where: any = {
       isDeleted: false,
       isAvailable: true,
-
-      ...(search && {
-        OR: [
-          {
-            title: {
-              contains: search,
-              mode: "insensitive" as const,
-            },
-          },
-          {
-            description: {
-              contains: search,
-              mode: "insensitive" as const,
-            },
-          },
-        ],
-      }),
-
-      ...(category && {
-        category: {
-          slug: category,
-        },
-      }),
-      ...(cuisine && {
-        cuisine,
-      }),
-
-      ...(dietary && {
-        dietary,
-      }),
-
-      ...((minPrice !== undefined || maxPrice !== undefined) && {
-        price: {
-          ...(minPrice !== undefined && {
-            gte: Number(minPrice),
-          }),
-
-          ...(maxPrice !== undefined && {
-            lte: Number(maxPrice),
-          }),
-        },
-      }),
     };
+
+    if (search) {
+      where.OR = [
+        {
+          title: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+        {
+          description: {
+            contains: search,
+            mode: "insensitive",
+          },
+        },
+      ];
+    }
+
+    if (category) {
+      where.category = {
+        slug: category,
+      };
+    }
+
+    if (cuisine) {
+      where.cuisine = cuisine;
+    }
+
+    if (dietary) {
+      where.dietary = dietary;
+    }
+
+    if (minPrice !== undefined || maxPrice !== undefined) {
+      where.price = {};
+
+      if (minPrice !== undefined) {
+        where.price.gte = Number(minPrice);
+      }
+
+      if (maxPrice !== undefined) {
+        where.price.lte = Number(maxPrice);
+      }
+    }
 
     const [meals, total] = await Promise.all([
       prisma.meal.findMany({
