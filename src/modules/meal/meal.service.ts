@@ -157,7 +157,7 @@ export const MealService = {
   },
 
   async getById(id: string) {
-    return prisma.meal.findFirst({
+    const meal = await prisma.meal.findFirst({
       where: {
         id,
         isDeleted: false,
@@ -190,6 +190,23 @@ export const MealService = {
         },
       },
     });
+    if (!meal) {
+      return null;
+    }
+
+    const totalRating = meal.reviews.reduce(
+      (acc, review) => acc + review.rating,
+      0,
+    );
+
+    const averageRating =
+      meal.reviews.length > 0 ? totalRating / meal.reviews.length : 0;
+
+    return {
+      ...meal,
+      averageRating,
+      reviewCount: meal._count.reviews,
+    };
   },
 
   async update(userId: string, mealId: string, payload: UpdateMealInput) {
