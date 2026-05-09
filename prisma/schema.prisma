@@ -161,9 +161,12 @@ model Review {
   rating     Int
   comment    String
   createdAt  DateTime @default(now())
-  customer   User     @relation(fields: [customerId], references: [id])
-  meal       Meal     @relation(fields: [mealId], references: [id])
+  updatedAt  DateTime @updatedAt
 
+  customer   User @relation(fields: [customerId], references: [id])
+  meal       Meal @relation(fields: [mealId], references: [id])
+
+  @@unique([mealId, customerId])
   @@index([mealId])
   @@index([customerId])
   @@map("reviews")
