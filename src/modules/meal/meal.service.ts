@@ -109,8 +109,14 @@ export const MealService = {
           },
 
           reviews: {
-            select: {
-              rating: true,
+            include: {
+              customer: {
+                select: {
+                  id: true,
+                  name: true,
+                  image: true,
+                },
+              },
             },
           },
 
