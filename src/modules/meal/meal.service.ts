@@ -101,15 +101,30 @@ export const MealService = {
         where,
         include: {
           category: true,
+
           provider: {
             select: {
               restaurant: true,
             },
           },
+
+          reviews: {
+            select: {
+              rating: true,
+            },
+          },
+
+          _count: {
+            select: {
+              reviews: true,
+            },
+          },
         },
+
         orderBy: {
           createdAt: "desc",
         },
+
         skip,
         take: limit,
       }),
@@ -117,8 +132,24 @@ export const MealService = {
       prisma.meal.count({ where }),
     ]);
 
+    const transformedMeals = meals.map((meal) => {
+      const totalRating = meal.reviews.reduce(
+        (acc, review) => acc + review.rating,
+        0,
+      );
+
+      const averageRating =
+        meal.reviews.length > 0 ? totalRating / meal.reviews.length : 0;
+
+      return {
+        ...meal,
+        averageRating,
+        reviewCount: meal._count.reviews,
+      };
+    });
+
     return {
-      meals,
+      meals: transformedMeals,
       total,
       page,
       totalPages: Math.ceil(total / limit),
@@ -133,7 +164,30 @@ export const MealService = {
       },
       include: {
         provider: true,
+
         category: true,
+
+        reviews: {
+          include: {
+            customer: {
+              select: {
+                id: true,
+                name: true,
+                image: true,
+              },
+            },
+          },
+
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+
+        _count: {
+          select: {
+            reviews: true,
+          },
+        },
       },
     });
   },
