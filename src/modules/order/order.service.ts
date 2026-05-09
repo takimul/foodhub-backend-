@@ -10,7 +10,7 @@ export const OrderService = {
 
     for (const item of payload.items) {
       const meal = await prisma.meal.findUnique({
-        where: { id: item.mealId }
+        where: { id: item.mealId },
       });
 
       if (!meal || meal.isDeleted) {
@@ -24,7 +24,7 @@ export const OrderService = {
       itemsData.push({
         mealId: meal.id,
         quantity: item.quantity,
-        price: meal.price
+        price: meal.price,
       });
     }
 
@@ -39,12 +39,12 @@ export const OrderService = {
         deliveryAddress: payload.deliveryAddress,
         totalAmount,
         items: {
-          create: itemsData
-        }
+          create: itemsData,
+        },
       },
       include: {
-        items: true
-      }
+        items: true,
+      },
     });
   },
 
@@ -52,8 +52,23 @@ export const OrderService = {
     return prisma.order.findMany({
       where: { customerId: userId },
       include: {
-        items: true
-      }
+        items: {
+          include: {
+            meal: {
+              include: {
+                reviews: {
+                  where: {
+                    customerId: userId,
+                  },
+                  select: {
+                    id: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
   },
 
@@ -61,17 +76,32 @@ export const OrderService = {
     return prisma.order.findFirst({
       where: {
         id,
-        customerId: userId
+        customerId: userId,
       },
       include: {
-        items: true
-      }
+        items: {
+          include: {
+            meal: {
+              include: {
+                reviews: {
+                  where: {
+                    customerId: userId,
+                  },
+                  select: {
+                    id: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
   },
 
   async getProviderOrders(userId: string) {
     const provider = await prisma.providerProfile.findUnique({
-      where: { userId }
+      where: { userId },
     });
 
     if (!provider) throw new Error("Provider not found");
@@ -81,21 +111,21 @@ export const OrderService = {
       include: {
         items: true,
         customer: {
-          select: { name: true, email: true }
-        }
-      }
+          select: { name: true, email: true },
+        },
+      },
     });
   },
 
   async updateStatus(userId: string, orderId: string, status: any) {
     const provider = await prisma.providerProfile.findUnique({
-      where: { userId }
+      where: { userId },
     });
 
     if (!provider) throw new Error("Provider not found");
 
     const order = await prisma.order.findUnique({
-      where: { id: orderId }
+      where: { id: orderId },
     });
 
     if (!order || order.providerId !== provider.id) {
@@ -104,7 +134,7 @@ export const OrderService = {
 
     return prisma.order.update({
       where: { id: orderId },
-      data: { status }
+      data: { status },
     });
-  }
+  },
 };
