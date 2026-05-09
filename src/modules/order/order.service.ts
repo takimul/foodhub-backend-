@@ -109,9 +109,26 @@ export const OrderService = {
     return prisma.order.findMany({
       where: { providerId: provider.id },
       include: {
-        items: true,
+        items: {
+          include: {
+            meal: {
+              include: {
+                reviews: {
+                  select: {
+                    id: true,
+                    rating: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         customer: {
-          select: { name: true, email: true },
+          select: {
+            name: true,
+            email: true,
+            image: true,
+          },
         },
       },
     });
