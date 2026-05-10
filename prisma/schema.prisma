@@ -160,7 +160,7 @@ model Review {
 
   mealId     String
   customerId String
-  orderId    String?
+  orderId    String
 
   rating     Int
   comment    String
@@ -172,9 +172,9 @@ model Review {
 
   meal       Meal @relation(fields: [mealId], references: [id])
 
-  order      Order? @relation(fields: [orderId], references: [id])
+  order      Order @relation(fields: [orderId], references: [id])
 
-  @@unique([orderId, mealId, customerId])
+  
 
   @@index([mealId])
   @@index([customerId])
