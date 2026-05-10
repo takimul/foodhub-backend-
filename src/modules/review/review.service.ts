@@ -4,78 +4,93 @@ export const ReviewService = {
   async createReview(
     customerId: string,
     payload: {
+      orderId: string;
       mealId: string;
       rating: number;
       comment: string;
-    }
+    },
   ) {
-    // CHECK PURCHASE
-    const hasOrdered = await prisma.orderItem.findFirst({
+    // CHECK ORDER EXISTS
+    const order = await prisma.order.findFirst({
       where: {
-        mealId: payload.mealId,
-        order: {
-          customerId,
-          status: "DELIVERED"
-        }
-      }
+        id: payload.orderId,
+        customerId,
+        status: "DELIVERED",
+
+        items: {
+          some: {
+            mealId: payload.mealId,
+          },
+        },
+      },
     });
 
-    if (!hasOrdered) {
-      throw new Error(
-        "You can only review meals you ordered"
-      );
+    if (!order) {
+      throw new Error("Invalid order");
     }
 
-    
-    const existing = await prisma.review.findUnique({
-      where: {
-        mealId_customerId: {
-          mealId: payload.mealId,
-          customerId
-        }
-      }
-    });
+    // CHECK EXISTING REVIEW
+    const existing =
+  await prisma.review.findUnique({
+    where: {
+      orderId_mealId_customerId: {
+        orderId:
+          payload.orderId,
+
+        mealId:
+          payload.mealId,
+
+        customerId,
+      },
+    },
+  });
 
     if (existing) {
-      throw new Error("Review already exists");
+      throw new Error("You already reviewed this order");
     }
 
     return prisma.review.create({
       data: {
+        orderId: payload.orderId,
+
         mealId: payload.mealId,
+
         customerId,
+
         rating: payload.rating,
-        comment: payload.comment
+
+        comment: payload.comment,
       },
+
       include: {
         customer: {
           select: {
             id: true,
             name: true,
-            image: true
-          }
-        }
-      }
+            image: true,
+          },
+        },
+      },
     });
   },
 
   async getMealReviews(mealId: string) {
     return prisma.review.findMany({
       where: {
-        mealId
+        mealId,
       },
       include: {
         customer: {
           select: {
             id: true,
             name: true,
-            image: true
-          }
-        }
+            image: true,
+          },
+        },
       },
       orderBy: {
-        createdAt: "desc"
-      }
+        createdAt: "desc",
+      },
     });
-  }
+  },
 };
