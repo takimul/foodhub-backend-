@@ -10,7 +10,7 @@ export const ReviewService = {
       comment: string;
     },
   ) {
-    // CHECK ORDER EXISTS
+    // CHECK ORDER EXIST
     const order = await prisma.order.findFirst({
       where: {
         id: payload.orderId,
