@@ -30,20 +30,15 @@ export const ReviewService = {
     }
 
     // CHECK EXISTING REVIEW
-    const existing =
-  await prisma.review.findUnique({
-    where: {
-      orderId_mealId_customerId: {
-        orderId:
-          payload.orderId,
+    const existing = await prisma.review.findFirst({
+      where: {
+        orderId: payload.orderId,
 
-        mealId:
-          payload.mealId,
+        mealId: payload.mealId,
 
         customerId,
       },
-    },
-  });
+    });
 
     if (existing) {
       throw new Error("You already reviewed this order");
