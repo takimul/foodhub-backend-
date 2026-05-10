@@ -49,54 +49,101 @@ export const OrderService = {
   },
 
   async getMyOrders(userId: string) {
-    return prisma.order.findMany({
-      where: { customerId: userId },
+    const orders = await prisma.order.findMany({
+      where: {
+        customerId: userId,
+      },
+
       include: {
         items: {
           include: {
-            meal: {
-              include: {
-                reviews: {
-                  where: {
-                    customerId: userId,
-                  },
-                  select: {
-                    id: true,
-                  },
-                },
-              },
-            },
+            meal: true,
           },
         },
       },
+
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
+    // ADD REVIEWED FLAG
+    const formattedOrders = await Promise.all(
+      orders.map(async (order) => {
+        const items = await Promise.all(
+          order.items.map(async (item) => {
+            const review = await prisma.review.findFirst({
+              where: {
+                orderId: order.id,
+
+                mealId: item.mealId,
+
+                customerId: userId,
+              },
+            });
+
+            return {
+              ...item,
+
+              reviewed: !!review,
+            };
+          }),
+        );
+
+        return {
+          ...order,
+          items,
+        };
+      }),
+    );
+
+    return formattedOrders;
   },
 
   async getById(userId: string, id: string) {
-    return prisma.order.findFirst({
+    const order = await prisma.order.findFirst({
       where: {
         id,
         customerId: userId,
       },
+
       include: {
         items: {
           include: {
-            meal: {
-              include: {
-                reviews: {
-                  where: {
-                    customerId: userId,
-                  },
-                  select: {
-                    id: true,
-                  },
-                },
-              },
-            },
+            meal: true,
           },
         },
       },
     });
+
+    if (!order) {
+      return null;
+    }
+
+    const items = await Promise.all(
+      order.items.map(async (item) => {
+        const review = await prisma.review.findFirst({
+          where: {
+            orderId: order.id,
+
+            mealId: item.mealId,
+
+            customerId: userId,
+          },
+        });
+
+        return {
+          ...item,
+
+          reviewed: !!review,
+        };
+      }),
+    );
+
+    return {
+      ...order,
+      items,
+    };
   },
 
   async getProviderOrders(userId: string) {

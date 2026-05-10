@@ -1,13 +1,13 @@
 import { prisma } from "../../lib/prisma";
 import type {
   CreateProviderInput,
-  UpdateProviderInput
+  UpdateProviderInput,
 } from "./provider.schema";
 
 export const ProviderService = {
   async create(userId: string, payload: CreateProviderInput) {
     const existing = await prisma.providerProfile.findUnique({
-      where: { userId }
+      where: { userId },
     });
 
     if (existing) {
@@ -17,24 +17,47 @@ export const ProviderService = {
     return prisma.providerProfile.create({
       data: {
         userId,
-        ...payload
-      }
+        ...payload,
+      },
     });
   },
 
   async getMe(userId: string) {
     return prisma.providerProfile.findUnique({
       where: { userId },
+
       include: {
-        meals: true
-      }
+        meals: {
+          include: {
+            reviews: {
+              select: {
+                id: true,
+                rating: true,
+                comment: true,
+                createdAt: true,
+
+                customer: {
+                  select: {
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+
+              orderBy: {
+                createdAt: "desc",
+              },
+            },
+          },
+        },
+      },
     });
   },
 
   async update(userId: string, payload: UpdateProviderInput) {
     return prisma.providerProfile.update({
       where: { userId },
-      data: payload
+      data: payload,
     });
   },
 
@@ -45,10 +68,10 @@ export const ProviderService = {
           select: {
             id: true,
             name: true,
-            image: true
-          }
-        }
-      }
+            image: true,
+          },
+        },
+      },
     });
   },
 
@@ -60,11 +83,33 @@ export const ProviderService = {
           select: {
             id: true,
             name: true,
-            image: true
-          }
+            image: true,
+          },
         },
-        meals: true
-      }
+        meals: {
+          include: {
+            reviews: {
+              select: {
+                id: true,
+                rating: true,
+                comment: true,
+                createdAt: true,
+
+                customer: {
+                  select: {
+                    name: true,
+                    image: true,
+                  },
+                },
+              },
+
+              orderBy: {
+                createdAt: "desc",
+              },
+            },
+          },
+        },
+      },
     });
-  }
+  },
 };
